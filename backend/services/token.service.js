@@ -7,7 +7,7 @@ const options = {
 };
 
 const token = (payload) => {
-    jwt.sign(payload,secretKey, options)
+    return jwt.sign(payload,secretKey, options)
 };
 
 module.exports = token;

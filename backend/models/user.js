@@ -31,7 +31,8 @@ const userSchema = new mongoose.Schema({
     mailConfirmCode: String,
     isMailConfirm: Boolean,
     createdDate: Date,
-    updatedDate: Date
+    updatedDate: Date,
+    isAdmin: Boolean
 });
 
 const User = mongoose.model("User", userSchema);

@@ -15,19 +15,6 @@ const transporter = nodemailer.createTransport({
     }
 });
 
-// let mailOptions = {
-//     from: "eticaretangular@hotmail.com",
-//     to: "eticaretangular@hotmail.com",
-//     subject: "Mail Onayı",
-//     html: `
-//     <div class="container text-center">
-//     <h1>Tebrikler</h1>
-//     <p>Kaydınızı tamamlamak için son bir adım kaldı. Aşağıdaki linke tıklayarak mail adresinizi onaylayabilir ve uygulamızı ücretsiz şekilde kullanabilirsiniz</p>
-//     <hr>
-//     <a href="http://localhost:4200/auth/confirmMail/${newUser.mailConfirmCode}" class="btn btn-primary">Mail Adresimi Onayla</a>
-//     </div> `
-// };
-
 const sendMail = (mailOptions) => {    
     transporter.sendMail(mailOptions, function(error, info){
         if(error){
