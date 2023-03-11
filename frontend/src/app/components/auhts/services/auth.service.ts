@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { MessageResultModel } from 'src/app/commons/models/message-result.model';
 import { CryptoService } from 'src/app/commons/services/crypto.service';
 import { GenericHttpService } from 'src/app/commons/services/generic-http.service';
 import { AuthModel } from '../login/models/auth.model';
@@ -32,5 +33,21 @@ export class AuthService {
     localStorage.clear();
     this._router.navigateByUrl("/login");
     this._toastr.info("Başarıyla çıkış yapıldı!");
+  }
+
+  sendConfirmMail(value: string){
+    let model = {emailOrUserName: value}
+    this._http.post<MessageResultModel>("auth/sendConfirmMail",model,res=>{
+      this._toastr.info(res.message);
+      let element = document.getElementById("confirmEmailModalCloseBtn");
+      element.click();
+    })
+  }
+
+  confirmMail(code: string, callBack: (res:MessageResultModel)=>void){
+    let model = {code: code}
+    this._http.post<MessageResultModel>("auth/confirm-mail",model, res=>{
+      callBack(res);
+    });
   }
 }

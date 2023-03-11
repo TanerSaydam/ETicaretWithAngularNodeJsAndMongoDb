@@ -31,6 +31,7 @@ export class LoginComponent {
   }
 
   sendConfirmMail(form: NgForm){
-    
+    if(form.valid)
+      this._auth.sendConfirmMail(form.controls["emailOrUserNameForConfirmEmail"].value);
   }
 }

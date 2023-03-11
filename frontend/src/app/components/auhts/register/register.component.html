@@ -1,1 +1,95 @@
-<p>register works!</p>
+<div class="center" style="margin-top: 50px;">
+    <div class="col-md-5">
+    <div class="card">
+        <div class="card-header">
+            <h1>Kayıt Ol</h1>
+        </div>
+        <div class="card-body">
+            <form #registerForm="ngForm" (ngSubmit)="register(registerForm)">
+                <div class="form-group">
+                    <label for="name">Ad Soyad</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="name"
+                      id="name"
+                      minlength="3"
+                      ngModel
+                      #name
+                      [appValid]="name.validity.valid">
+                    <div class="invalid-feedback">
+                        Ad soyad alanı en az 3 karakter olmalıdır!
+                    </div>
+                </div>
+                <div class="form-group mt-2">
+                    <label for="userName">Kullanıcı Adı</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="userName"
+                      id="userName"
+                      minlength="3"
+                      ngModel
+                      #userName
+                      [appValid]="userName.validity.valid">
+                    <div class="invalid-feedback">
+                        Kullanıcı adı en az 3 karakter olmalıdır!
+                    </div>
+                </div>
+                <div class="form-group mt-2">
+                    <label for="email">Mail Adresi</label>
+                    <input
+                      type="email"
+                      class="form-control"
+                      name="email"
+                      id="email"
+                      minlength="3"
+                      ngModel
+                      #email
+                      email
+                      [appValid]="email.validity.valid">
+                    <div class="invalid-feedback">
+                        Geçerli bir mail adresi girmelisiniz!
+                    </div>
+                </div>
+                <div class="form-group mt-2">
+                    <label for="password">Şifre</label>
+                    <div class="input-group mb-3">
+                        <input
+                          type="password"
+                          required
+                          #password
+                          minlength="1"
+                          name="password"
+                          id="password"
+                          ngModel
+                          class="form-control">
+                        <div class="invalid-feedback">
+                            Şifre en az 1 karakter olmalıdır!
+                        </div>
+                        <span
+                          class="input-group-text password"
+                          id="basic-addon1"
+                          style="cursor: pointer;">
+                            <i (click)="showOrHidePassword(password)"
+                                [class]="password.type == 'password' ? 'fa fa-eye-slash' : 'fa fa-eye'"></i>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group mt-2">
+                    <app-loading-button
+                    btnName="Kayıt Ol"
+                    btnClassName="btn btn-outline-success w-100"
+                    [form]="registerForm"
+                    btnLoadingName="Kayıt olunuyor..."
+                    btnLoadingClassName="btn btn-outline-success w-100">
+                    </app-loading-button>
+                </div>
+                <div class="form-group mt-2">
+                    <a routerLink="/login" style="float: right;">Zaten Üye misiniz</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</div>

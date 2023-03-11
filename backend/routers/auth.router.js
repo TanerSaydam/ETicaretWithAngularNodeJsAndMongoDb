@@ -9,12 +9,11 @@ let sendMail = require("../services/mail.service");
 const MailOptions = require("../dtos/mail-options");
 
 //Register İşlemi
-router.post("/register", upload.single("image"), async (req, res) => {
+router.post("/register", async (req, res) => {
     const newUser = new User(req.body);
 
     newUser.createdDate = Date.now();
-    newUser._id = uuidv4();
-    newUser.imageUrl = req.file.path;
+    newUser._id = uuidv4();    
     newUser.isMailConfirm = false;
 
     try {
@@ -51,7 +50,7 @@ sendConfirmMail = (user) => {
         <h1>Tebrikler</h1>
         <p>Kaydınızı tamamlamak için son bir adım kaldı. Aşağıdaki linke tıklayarak mail adresinizi onaylayabilir ve uygulamızı ücretsiz şekilde kullanabilirsiniz</p>
         <hr>
-        <a href="http://localhost:4200/auth/confirmMail/${user.mailConfirmCode}" class="btn btn-primary">Mail Adresimi Onayla</a>
+        <a href="http://localhost:4200/confirmMail/${user.mailConfirmCode}" class="btn btn-primary">Mail Adresimi Onayla</a>
         </div> `
     )
 
@@ -72,7 +71,7 @@ router.post("/confirm-mail", async (req, res) => {
             } else {
                 user.isMailConfirm = true;
                 const result = await User.findOneAndUpdate(user);
-                res.json({ result: result });
+                res.json({ message: "Mail adresiniz başarıyla onaylandı!"});
             }
         }
     } catch (error) {
@@ -128,16 +127,27 @@ router.post("/login", async (req, res) => {
 //Onaylama Maili Gönder
 router.post("/sendConfirmMail", async (req, res)=>{
     try {
-        const {email} = req.body;
+        const {emailOrUserName} = req.body;
 
-        let user = await User.find({email:email});        
-        if(user.length == 0){
+        let users = await User.find({email:emailOrUserName});        
+        if(users.length == 0){
+            users = await User.find({userName: emailOrUserName});
+            if(users.length == 0){
             res.status(500).json({ message: "Kullanıcı bulunamadı!" });
+            }
+            else{
+                if(users[0].isMailConfirm){
+                    res.status(500).json({ message: "Mail adresi zaten onaylı!" });
+                }else{                
+                    sendConfirmMail(users[0]);
+                    res.json({message: "Onay mailiniz başarıyla gönderildi!"});
+                } 
+            }
         }else{
-            if(user[0].isMailConfirm){
+            if(users[0].isMailConfirm){
                 res.status(500).json({ message: "Mail adresi zaten onaylı!" });
             }else{                
-                sendConfirmMail(user[0]);
+                sendConfirmMail(users[0]);
                 res.json({message: "Onay mailiniz başarıyla gönderildi!"});
             }
         }

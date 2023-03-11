@@ -83,7 +83,13 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
-                    <button type="button" [disabled]="!confirmEmailForm.valid" class="btn btn-primary">Mail Gönder</button>
+                    <app-loading-button
+                    btnName="Mail Gönder"
+                    btnClassName="btn-primary"
+                    btnLoadingName="Mail Gönderiliyor..."
+                    btnLoadingClassName="btn-primary"
+                    [form]="confirmEmailForm">
+                    </app-loading-button>                    
                 </div>
             </form>
         </div>
