@@ -1,0 +1,13 @@
+<button
+  [disabled]="!form.valid"
+  class="btn {{btnClassName}}">
+  <i class="{{iconClassName}}"></i>
+    {{btnName}}
+</button>
+<button class="btn {{btnLoadingClassName}}" disabled>
+    <span class="spinner-border spinner-border-sm"></span>
+    <span class="mx-1">
+        <i class="{{iconLoadingClassName}}"></i>
+        {{btnLoadingName}}
+    </span>
+</button>

@@ -1,0 +1,66 @@
+<div class="row d-flex justify-content-center">
+    <div class="col-md-5">
+        <div class="card " style="margin-top: 50px;">
+            <div class="card-header">
+                <h1>Kullanıcı Girişi</h1>
+            </div>
+            <div class="card-body">
+                <form #loginForm="ngForm" (ngSubmit)="login(loginForm)">
+                    <div class="form-group">
+                        <label
+                          for="emailOrUserName">
+                          Mail/Kullanıcı Adı
+                        </label>
+                        <input
+                          class="form-control"
+                          [appValid]="emailOrUserName.validity.valid"
+                          type="text"
+                          #emailOrUserName
+                          required
+                          minlength="3"
+                          ngModel
+                          name="emailOrUserName"
+                          id="emailOrUserName">
+                          <div class="invalid-feedback">
+                             Geçerli bir mail adresi/kullanıcı adı yazın!
+                         </div>
+                    </div>
+                    <div class="form-group mt-2">
+                        <label 
+                        for="password">
+                            Şifre
+                        </label>
+                        <div class="input-group mb-3">                            
+                            <input 
+                            type="password"
+                        required                        
+                        #password
+                        minlength="1"
+                        name="password"
+                        id="password"
+                        ngModel
+                        class="form-control">
+                        <div class="invalid-feedback">
+                            Şifre en az 1 karakter olmalıdır!
+                        </div>
+                            <span class="input-group-text password" id="basic-addon1" style="cursor: pointer;">
+                                <i (click)="showOrHidePassword(password)" [class]="password.type == 'password' ? 'fa fa-eye-slash' : 'fa fa-eye'"></i>
+                            </span>
+                          </div>                        
+                        
+                    </div>
+                    <div class="form-group mt-2">
+                        <app-loading-button
+                        [form]="loginForm"
+                        iconClassName="fa fa-unlock"
+                        btnName="Giriş Yap"
+                        btnLoadingName="Giriş Yapılıyor">
+                        </app-loading-button>
+                        <a routerLink="/register" style="float: right;">Kayıt Ol</a>
+                        <a>Onay Maili Gönder</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+        </div>
+</div>

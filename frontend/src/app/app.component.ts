@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
+import { SharedModule } from './commons/modules/shared.module';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  template: "<router-outlet></router-outlet>",
+  standalone: true,
+  imports: [SharedModule]
 })
-export class AppComponent {
-  title = 'frontend';
-}
+export class AppComponent {}
