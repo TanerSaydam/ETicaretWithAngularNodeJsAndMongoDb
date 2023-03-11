@@ -1,11 +1,15 @@
 import { Component } from '@angular/core';
 
 import { SharedModule } from 'src/app/commons/modules/shared.module';
+import { NavbarComponent } from './navbar/navbar.component';
 
 @Component({
   selector: 'app-layouts',
   standalone: true,
-  imports: [SharedModule],
+  imports: [
+    SharedModule, 
+    NavbarComponent
+  ],
   templateUrl: './layouts.component.html',
   styleUrls: ['./layouts.component.css']
 })

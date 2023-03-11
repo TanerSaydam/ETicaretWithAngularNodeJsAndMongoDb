@@ -7,60 +7,85 @@
             <div class="card-body">
                 <form #loginForm="ngForm" (ngSubmit)="login(loginForm)">
                     <div class="form-group">
-                        <label
-                          for="emailOrUserName">
-                          Mail/Kullanıcı Adı
+                        <label for="emailOrUserName">
+                            Mail/Kullanıcı Adı
                         </label>
-                        <input
-                          class="form-control"
-                          [appValid]="emailOrUserName.validity.valid"
-                          type="text"
-                          #emailOrUserName
-                          required
-                          minlength="3"
-                          ngModel
-                          name="emailOrUserName"
-                          id="emailOrUserName">
-                          <div class="invalid-feedback">
-                             Geçerli bir mail adresi/kullanıcı adı yazın!
-                         </div>
+                        <input class="form-control" [appValid]="emailOrUserName.validity.valid" type="text"
+                            #emailOrUserName required minlength="3" ngModel name="emailOrUserName" id="emailOrUserName">
+                        <div class="invalid-feedback">
+                            Geçerli bir mail adresi/kullanıcı adı yazın!
+                        </div>
                     </div>
                     <div class="form-group mt-2">
-                        <label 
-                        for="password">
+                        <label for="password">
                             Şifre
                         </label>
-                        <div class="input-group mb-3">                            
-                            <input 
-                            type="password"
-                        required                        
-                        #password
-                        minlength="1"
-                        name="password"
-                        id="password"
-                        ngModel
-                        class="form-control">
-                        <div class="invalid-feedback">
-                            Şifre en az 1 karakter olmalıdır!
-                        </div>
+                        <div class="input-group mb-3">
+                            <input type="password" required #password minlength="1" name="password" id="password"
+                                ngModel class="form-control">
+                            <div class="invalid-feedback">
+                                Şifre en az 1 karakter olmalıdır!
+                            </div>
                             <span class="input-group-text password" id="basic-addon1" style="cursor: pointer;">
-                                <i (click)="showOrHidePassword(password)" [class]="password.type == 'password' ? 'fa fa-eye-slash' : 'fa fa-eye'"></i>
+                                <i (click)="showOrHidePassword(password)"
+                                    [class]="password.type == 'password' ? 'fa fa-eye-slash' : 'fa fa-eye'"></i>
                             </span>
-                          </div>                        
-                        
+                        </div>
+
                     </div>
                     <div class="form-group mt-2">
-                        <app-loading-button
-                        [form]="loginForm"
-                        iconClassName="fa fa-unlock"
-                        btnName="Giriş Yap"
-                        btnLoadingName="Giriş Yapılıyor">
+                        <app-loading-button [form]="loginForm" iconClassName="fa fa-unlock" btnName="Giriş Yap"
+                            btnLoadingName="Giriş Yapılıyor">
                         </app-loading-button>
-                        <a routerLink="/register" style="float: right;">Kayıt Ol</a>
-                        <a>Onay Maili Gönder</a>
+                    </div>
+                    <div class="form-group mt-1">
+                        <a routerLink="/register" style="float: right;">
+                            Kayıt Ol
+                        </a>
+                        <a data-bs-toggle="modal" data-bs-target="#confirmEmailModal">Onay Maili Gönder</a>
+                        <br>
+                        <a>Şifremi Unuttum</a>
                     </div>
                 </form>
             </div>
         </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="confirmEmailModal" tabindex="-1" aria-labelledby="confirmEmailModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="confirmEmailModalLabel">Onay Maili Gönder</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" id="confirmEmailModalCloseBtn"
+                    aria-label="Close"></button>
+            </div>
+            <form #confirmEmailForm="ngForm" (ngSubmit)="sendConfirmMail(confirmEmailForm)">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="emailOrUserNameForConfirmEmail">Mail/Kullanıcı Adı</label>
+                        <input
+                          type="text"
+                          required
+                          minlength="3"
+                          ngModel
+                          #emailOrUserNameForConfirmEmail
+                          name="emailOrUserNameForConfirmEmail"
+                          id="emailOrUserNameForConfirmEmail"
+                          [appValid]="emailOrUserNameForConfirmEmail.validity.valid"
+                          class="form-control">
+                          <div class="invalid-feedback">
+                            Geçerli bir mail adresi/kullanıcı adı yazın!
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                    <button type="button" [disabled]="!confirmEmailForm.valid" class="btn btn-primary">Mail Gönder</button>
+                </div>
+            </form>
         </div>
+    </div>
 </div>

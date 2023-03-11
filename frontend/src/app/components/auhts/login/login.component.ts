@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 
 import { SharedModule } from 'src/app/commons/modules/shared.module';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -12,8 +13,13 @@ import { SharedModule } from 'src/app/commons/modules/shared.module';
 })
 export class LoginComponent {
 
+  constructor(
+    private _auth: AuthService
+  ){}
   login(form: NgForm){
-
+    if(form.valid){
+      this._auth.login(form.value);
+    }
   }
 
   showOrHidePassword(password: HTMLInputElement){
@@ -22,5 +28,9 @@ export class LoginComponent {
     else{
       password.type = "password"
     }
+  }
+
+  sendConfirmMail(form: NgForm){
+    
   }
 }

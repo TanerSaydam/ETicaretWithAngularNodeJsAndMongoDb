@@ -1,2 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
 @import url("./assets/bootstrap.css");
+@import url("../node_modules/ngx-toastr/toastr.css");
+a{
+    cursor: pointer;
+    color: rgba(var(--bs-link-color-rgb),var(--bs-link-opacity,1)) !important;
+    text-decoration: none;
+}
+
+a:hover{
+    color: blue !important;
+    text-decoration: underline !important;
+}
