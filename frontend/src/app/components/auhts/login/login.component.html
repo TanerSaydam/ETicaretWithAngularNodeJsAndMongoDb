@@ -44,7 +44,9 @@
                         </a>
                         <a data-bs-toggle="modal" data-bs-target="#confirmEmailModal">Onay Maili Gönder</a>
                         <br>
-                        <a>Şifremi Unuttum</a>
+                        <a
+                        data-bs-toggle="modal"
+                        data-bs-target="#sendForgotPasswordEmailModal">Şifremi Unuttum</a>
                     </div>
                 </form>
             </div>
@@ -52,7 +54,7 @@
     </div>
 </div>
 
-
+<!-- Send Confirm Mail Modal -->
 <div class="modal fade" id="confirmEmailModal" tabindex="-1" aria-labelledby="confirmEmailModalLabel"
     aria-hidden="true">
     <div class="modal-dialog">
@@ -95,3 +97,51 @@
         </div>
     </div>
 </div>
+<!-- Send Confirm Mail Modal -->
+
+<!-- Send Forgot Password Mail Modal -->
+<div class="modal fade" id="sendForgotPasswordEmailModal" tabindex="-1" aria-labelledby="sendForgotPasswordEmailModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="sendForgotPasswordEmailModalLabel">
+                    Şifremi Unuttum
+                </h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" id="sendForgotPasswordEmailModalCloseBtn"
+                    aria-label="Close"></button>
+            </div>
+            <form #sendForgotPasswordEmailForm="ngForm" (ngSubmit)="sendForgotPasswordMail(sendForgotPasswordEmailForm)">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="emailOrUserNameForForgotPassword">Mail/Kullanıcı Adı</label>
+                        <input
+                          type="text"
+                          required
+                          minlength="3"
+                          ngModel
+                          #emailOrUserNameForForgotPassword
+                          name="emailOrUserNameForForgotPassword"
+                          id="emailOrUserNameForForgotPassword"
+                          [appValid]="emailOrUserNameForForgotPassword.validity.valid"
+                          class="form-control">
+                          <div class="invalid-feedback">
+                            Geçerli bir mail adresi/kullanıcı adı yazın!
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                    <app-loading-button
+                    btnName="Mail Gönder"
+                    btnClassName="btn-primary"
+                    btnLoadingName="Mail Gönderiliyor..."
+                    btnLoadingClassName="btn-primary"
+                    [form]="sendForgotPasswordEmailForm">
+                    </app-loading-button>                    
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Send Forgot Password Mail Modal -->

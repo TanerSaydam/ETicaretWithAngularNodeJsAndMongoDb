@@ -34,4 +34,10 @@ export class LoginComponent {
     if(form.valid)
       this._auth.sendConfirmMail(form.controls["emailOrUserNameForConfirmEmail"].value);
   }
+
+  sendForgotPasswordMail(form: NgForm){
+    if(form.valid){
+      this._auth.sendForgotPasswordMail(form.controls["emailOrUserNameForForgotPassword"].value);
+    }
+  }
 }

@@ -29,6 +29,13 @@ export class AuthService {
     });
   }
 
+  register(model: any){
+    this._http.post<MessageResultModel>("auth/register",model, res=>{
+      this._toastr.success(res.message);
+      this._router.navigateByUrl("/login");
+    })
+  }
+
   logout(){
     localStorage.clear();
     this._router.navigateByUrl("/login");
@@ -41,7 +48,24 @@ export class AuthService {
       this._toastr.info(res.message);
       let element = document.getElementById("confirmEmailModalCloseBtn");
       element.click();
+    });
+  }
+
+  sendForgotPasswordMail(value: string){
+    let model = {emailOrUserName: value}
+    this._http.post<any>("auth/sendForgotPassword",model,res=>{
+      this._toastr.info("Şifre yenileme için mailiniz başarıyla gönderildi");
+      this._router.navigateByUrl(`/forgot-password/${res._id}`);
+      let element = document.getElementById("sendForgotPasswordEmailModalCloseBtn");
+      element.click();
     })
+  }
+
+  refreshPassword(model: any){
+    this._http.post<MessageResultModel>("auth/refreshPassword", model, res=>{
+      this._toastr.info(res.message);
+      this._router.navigateByUrl("/login");
+    });
   }
 
   confirmMail(code: string, callBack: (res:MessageResultModel)=>void){
@@ -50,4 +74,14 @@ export class AuthService {
       callBack(res);
     });
   }
+
+  isLogged(){
+    let token = localStorage.getItem("accessToken");
+    if(token != null && token != undefined){
+      return true;
+    }
+
+    this._router.navigateByUrl("/login");
+    return false;    
+  } 
 }

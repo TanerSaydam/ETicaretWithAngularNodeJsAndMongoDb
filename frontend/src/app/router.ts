@@ -1,5 +1,6 @@
+import { inject } from "@angular/core";
 import { Routes } from "@angular/router";
-import { AuthGuard } from "./components/auhts/guards/auth.guard";
+import { AuthService } from "./components/auhts/services/auth.service";
 
 export const routes: Routes = [
     {
@@ -11,13 +12,21 @@ export const routes: Routes = [
         loadComponent: ()=> import("./components/auhts/confirm-mail/confirm-mail.component").then(c=> c.ConfirmMailComponent)
     },
     {
+        path: "forgot-password/:value",
+        loadComponent: ()=> import("./components/auhts/forgot-password/forgot-password.component").then(c=> c.ForgotPasswordComponent)
+    },
+    {
+        path: "forgot-password/:value/:code",
+        loadComponent: ()=> import("./components/auhts/forgot-password/forgot-password.component").then(c=> c.ForgotPasswordComponent)
+    },
+    {
         path: "register",
         loadComponent:()=> import("./components/auhts/register/register.component").then(c=> c.RegisterComponent)
     },
     {
         path: "",
         loadComponent: ()=> import("./components/layouts/layouts.component").then(c=> c.LayoutsComponent),
-        canActivateChild: [AuthGuard],
+        canActivateChild: [()=> inject(AuthService).isLogged()],
         children: [
             {
                 path: "",
