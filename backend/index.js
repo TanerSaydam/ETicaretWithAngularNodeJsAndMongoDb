@@ -7,6 +7,7 @@ const User = require("./models/user");
 
 //Routerlar
 const authRouter = require("./routers/auth.router");
+const categoryRouter = require("./routers/category.router");
 
 //Api istekleri için
 const app = express();
@@ -25,6 +26,9 @@ createAdminUser();
 
 //Auth Router
 app.use("/api/auth/", authRouter);
+
+//Category Router
+app.use("/api/categories/", categoryRouter);
 
 
 const port = process.env.PORT || 3000;

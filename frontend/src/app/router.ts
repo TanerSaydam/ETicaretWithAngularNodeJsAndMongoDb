@@ -33,6 +33,15 @@ export const routes: Routes = [
                 loadComponent: ()=> import("./components/home/home.component").then(c=> c.HomeComponent)
             },
             {
+                path: "admin",
+                children: [
+                    {
+                        path: "categories",
+                        loadComponent: ()=> import("./components/categories/categories.component").then(c=> c.CategoriesComponent)
+                    }
+                ]
+            },
+            {
                 path: "**",
                 loadComponent:()=> import("./components/not-found/not-found.component").then(c=> c.NotFoundComponent)
             }
