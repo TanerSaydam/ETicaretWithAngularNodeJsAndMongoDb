@@ -43,7 +43,9 @@ export class CategoriesComponent implements OnInit {
   }
 
   getAll(){
-    this._category.getAll(res => this.categories = res);
+    this._category.getAll(res => {
+      this.categories = res;      
+    });
   }
 
   add(form: NgForm){

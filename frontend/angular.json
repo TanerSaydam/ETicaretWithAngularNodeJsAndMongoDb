@@ -55,7 +55,8 @@
             "scripts": [
               "./src/assets/bootstrap.bundle.js",
               "./src/assets/font-awesome.js",
-              "./src/assets//jquery.js"
+              "./src/assets/jquery.js",
+              "./src/assets/datatables/datatables.js"
             ]
           },
           "configurations": {

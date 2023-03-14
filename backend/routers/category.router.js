@@ -4,6 +4,7 @@ const Category = require("../models/category");
 const {v4:uuidv4} = require("uuid");
 const response = require("../services/response.service");
 const User = require("../models/user");
+const Product = require("../models/product");
 
 //Kategori Listesi
 router.get("/getAll", async (req, res)=>{
@@ -31,9 +32,13 @@ router.post("/add", async (req, res)=>{
 router.post("/removeById", async (req, res)=>{
     response(res,async ()=> {
         const {_id} = req.body;
-        await Category.findByIdAndRemove(_id);
-        res.json({message: "Kategori kaydı başarıyla silindi!"});
-        //Düzeltilecek
+        const result = await Product.find({categories: _id});
+        if(result.length > 0){
+            res.status(500).json({message: "Ürüne bağlı kategoriler silinemez. Önce ürün bağlantısını koparın!"});
+        }else{
+            await Category.findByIdAndRemove(_id);
+            res.json({message: "Kategori kaydı başarıyla silindi!"});      
+        }
     });   
 });
 
@@ -42,7 +47,7 @@ router.post("/update", async (req, res)=>{
     response(res, async()=>{
         const {_id, name} = req.body;
         const category = await Category.findById(_id);
-        category.name = name;
+        category.name = name.toUpperCase();
         await Category.findByIdAndUpdate(_id, category);
         res.json({message: "Kategori başarıyla güncellendi"});
     });

@@ -12,10 +12,8 @@ import { SweetAlert2Module } from "@sweetalert2/ngx-sweetalert2";
 
 import { SocialLoginModule, SocialAuthServiceConfig, GoogleSigninButtonModule } from '@abacritt/angularx-social-login';
 import {
-  GoogleLoginProvider,
-  FacebookLoginProvider
+  GoogleLoginProvider  
 } from '@abacritt/angularx-social-login';
-import { DataTablesModule } from "angular-datatables";
 
 bootstrapApplication(AppComponent, {
   providers: [
@@ -26,8 +24,7 @@ bootstrapApplication(AppComponent, {
       StoreModule.forRoot({isLoading: loadingReducer}),
       BrowserAnimationsModule,   
       SocialLoginModule,
-      GoogleSigninButtonModule,   
-      DataTablesModule,
+      GoogleSigninButtonModule,         
       ToastrModule.forRoot({
         closeButton: true,
         progressBar: true,
