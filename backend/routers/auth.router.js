@@ -146,6 +146,47 @@ router.post("/login", async (req, res) => {
     });    
 });
 
+//Google Login İşlemi
+router.post("/googleLogin", async (req,res)=> {
+    response(res, async()=>{
+        const {id, email, name, photoUrl} = req.body;
+        let users = await User.find({email: email});
+
+        let mailConfirmCode = create6DigitCode();
+        let checkMailConfirmCode = await User.find({ isMailConfirmCode: mailConfirmCode });
+        while (checkMailConfirmCode.length > 0) {
+            mailConfirmCode = create6DigitCode();
+            checkMailConfirmCode = await User.find({ isMailConfirmCode: mailConfirmCode });
+        }
+
+        if(users.length == 0){
+            let user = new User({
+                _id: uuidv4(),
+                email: email,
+                name: name,
+                password: id,
+                userName: email,
+                createdDate: new Date(),
+                imageUrl: photoUrl,
+                isAdmin: false,
+                isMailConfirm: true,
+                mailConfirmCode: mailConfirmCode,                
+            });
+
+            await user.save();
+            const payload = {
+                user: user
+            }
+            res.json({ token: token(payload), user: user });
+        }else{
+            const payload = {
+                user: users[0]
+            }
+            res.json({ token: token(payload), user: users[0] });
+        }
+    });
+});
+
 //Onaylama Maili Gönder
 router.post("/sendConfirmMail", async (req, res)=>{
     try {

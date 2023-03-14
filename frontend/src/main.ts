@@ -10,6 +10,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { SweetAlert2Module } from "@sweetalert2/ngx-sweetalert2";
 
+import { SocialLoginModule, SocialAuthServiceConfig, GoogleSigninButtonModule } from '@abacritt/angularx-social-login';
+import {
+  GoogleLoginProvider,
+  FacebookLoginProvider
+} from '@abacritt/angularx-social-login';
+import { DataTablesModule } from "angular-datatables";
+
 bootstrapApplication(AppComponent, {
   providers: [
     provideHttpClient(),
@@ -17,7 +24,10 @@ bootstrapApplication(AppComponent, {
       BrowserModule,
       RouterModule.forRoot(routes),
       StoreModule.forRoot({isLoading: loadingReducer}),
-      BrowserAnimationsModule,
+      BrowserAnimationsModule,   
+      SocialLoginModule,
+      GoogleSigninButtonModule,   
+      DataTablesModule,
       ToastrModule.forRoot({
         closeButton: true,
         progressBar: true,
@@ -25,6 +35,26 @@ bootstrapApplication(AppComponent, {
         preventDuplicates: true
       }),
       SweetAlert2Module.forRoot()
-    )
+    ), 
+    {
+      provide: 'SocialAuthServiceConfig',
+      useValue: {
+        autoLogin: false,
+        providers: [
+          {
+            id: GoogleLoginProvider.PROVIDER_ID,
+            provider: new GoogleLoginProvider(
+              '91017558654-goh5sforrt31li289kogg62prbmql2p0.apps.googleusercontent.com'
+            )
+          }
+        ],
+        onError: (err) => {
+          console.error(err);
+        }
+      } as SocialAuthServiceConfig,
+    }
   ]
 })
+
+
+

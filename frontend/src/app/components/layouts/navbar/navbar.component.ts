@@ -20,7 +20,7 @@ constructor(
   private _swal: SwalService,
   private _crypto: CryptoService
 ){
- this.user = JSON.parse(this._crypto.decryption(localStorage.getItem("user"))) 
+ this.user = JSON.parse(this._crypto.decryption(localStorage.getItem("user")))  
 }
 
 logout(){

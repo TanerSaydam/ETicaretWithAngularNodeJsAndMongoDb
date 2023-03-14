@@ -12,7 +12,9 @@
             </a>
             <ul class="dropdown-menu">
               <li><a class="dropdown-item" routerLink="admin/products">Ürünler</a></li>
-              <li><a class="dropdown-item" routerLink="admin/categories">Kategoriler</a></li>
+              <li>
+                <a *ngIf="user.isAdmin" class="dropdown-item" routerLink="admin/categories">Kategoriler</a>
+              </li>
             </ul>
           </li>          
         </ul>       

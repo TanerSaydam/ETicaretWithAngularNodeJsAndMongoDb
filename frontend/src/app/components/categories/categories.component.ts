@@ -7,7 +7,11 @@ import { CategoryPipe } from './pipes/category.pipe';
 import { NgForm } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { SwalService } from 'src/app/commons/services/swal.service';
+import { CryptoService } from 'src/app/commons/services/crypto.service';
+import { UserModel } from '../users/models/user.model';
+import { Router } from '@angular/router';
 declare const $: any;
+
 
 @Component({
   selector: 'app-categories',
@@ -20,14 +24,21 @@ export class CategoriesComponent implements OnInit {
   categories: CategoryModel[] = [];
   category: CategoryModel = new CategoryModel();
   search: string = "";
+  user: UserModel = new UserModel();
 
   constructor(
     private _category: CategoryService,
     private _toastr: ToastrService,
-    private _swal:SwalService
+    private _swal:SwalService,
+    private _crypto: CryptoService,
+    private _router: Router
   ) {}
 
   ngOnInit(): void {
+    this.user = JSON.parse(this._crypto.decryption(localStorage.getItem("user")));
+    if(!this.user.isAdmin){
+        this._router.navigateByUrl("/");
+    }
     this.getAll();
   }
 

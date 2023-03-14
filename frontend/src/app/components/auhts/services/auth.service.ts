@@ -29,6 +29,17 @@ export class AuthService {
     });
   }
 
+  googleLogin(model: any){
+    this._http.post<AuthModel>("auth/googleLogin",model,res=>{
+      localStorage.setItem("accessToken", 
+      this._crypto.encryption(res.token));
+      localStorage.setItem("user",
+      this._crypto.encryption(JSON.stringify(res.user)));
+      this._router.navigateByUrl("/");
+      this._toastr.success("Başarıyla giriş yapıldı!");
+    });
+  }
+
   register(model: any){
     this._http.post<MessageResultModel>("auth/register",model, res=>{
       this._toastr.success(res.message);
@@ -38,7 +49,8 @@ export class AuthService {
 
   logout(){
     localStorage.clear();
-    this._router.navigateByUrl("/login");
+    window.location.href = "/login"
+    //this._router.navigateByUrl("/login");
     this._toastr.info("Başarıyla çıkış yapıldı!");
   }
 
