@@ -34,12 +34,11 @@ router.post("/add", upload.array("images"),async(req,res)=>{
 router.post("/removeById", async(req, res)=>{
     response(res,async()=>{
         const {_id} = req.body;
+        //sepeti ve siparişi kontrol et. Eğer ürün oralarda varsa ürünü silme pasife çek
         const product = await Product.findById(_id);
         for (const image of product.imageUrls) {
-            fs.unlink(image.path, ()=>{
-                
-            });
-        }        
+            fs.unlink(image.path, ()=>{});
+        }
 
         await Product.findByIdAndRemove(_id);
         res.json({message: "Ürün kaydı başarıyla silindi!"});
@@ -54,6 +53,7 @@ router.get("/", async(req, res)=>{
     });
 })
 
+//Ürünün Aktif/Pasif Durumunu Değiştir
 router.post("/changeActiveStatus", async(req, res)=>{
     response(res, async()=>{
         const {_id} = req.body;
@@ -64,5 +64,13 @@ router.post("/changeActiveStatus", async(req, res)=>{
     })
 });
 
+//Id'ye Göre Ürünü Getir
+router.post("/getById", async(req,res)=>{
+    response(res, async()=>{
+        const {_id} = req.body;
+        let product = await Product.findById(_id);
+        res.json(product);
+    });
+});
 
 module.exports = router;

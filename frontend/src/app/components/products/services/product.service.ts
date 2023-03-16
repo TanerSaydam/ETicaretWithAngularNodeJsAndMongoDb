@@ -36,4 +36,11 @@ export class ProductService {
       callBack(res);
     });
   }
+
+  getById(id: string, callBack: (res:ProductModel)=> void){
+    let model = {_id: id};
+    this._http.post<ProductModel>("products/getById", model, res=>{
+      callBack(res);
+    });
+  }
 }

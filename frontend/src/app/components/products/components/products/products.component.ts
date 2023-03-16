@@ -1,17 +1,16 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ProductModel } from './models/product.model';
 import { SharedModule } from 'src/app/commons/modules/shared.module';
-import { ProductPipe } from './pipes/product.pipe';
-import { ProductService } from './services/product.service';
 import { CryptoService } from 'src/app/commons/services/crypto.service';
-import { UserModel } from '../users/models/user.model';
 import { Router } from '@angular/router';
 import { SwalService } from 'src/app/commons/services/swal.service';
 import { ToastrService } from 'ngx-toastr';
 import { RoutesModel } from 'src/app/commons/components/blank/models/routes.model';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { ThemePalette } from '@angular/material/core';
+import { UserModel } from 'src/app/components/users/models/user.model';
+import { ProductModel } from '../../models/product.model';
+import { ProductPipe } from '../../pipes/product.pipe';
+import { ProductService } from '../../services/product.service';
 
 @Component({
   selector: 'app-products',

@@ -44,11 +44,15 @@ export const routes: Routes = [
                         children: [
                             {
                                 path:"",
-                                loadComponent: ()=> import("./components/products/products.component").then(c=> c.ProductsComponent)
+                                loadComponent: ()=> import("./components/products/components/products/products.component").then(c=> c.ProductsComponent)
                             },
                             {
                                 path: "add",
-                                loadComponent: ()=> import("./components/products/product-add/product-add.component").then(c=> c.ProductAddComponent)
+                                loadComponent: ()=> import("./components/products/components/product-add/product-add.component").then(c=> c.ProductAddComponent)
+                            },
+                            {
+                                path: "update/:value",
+                                loadComponent: ()=> import("./components/products/components/product-update/product-update.component").then(c=> c.ProductUpdateComponent)
                             }
                         ]
                     }

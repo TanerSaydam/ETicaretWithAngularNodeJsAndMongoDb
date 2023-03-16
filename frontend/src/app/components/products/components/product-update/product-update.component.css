@@ -1,0 +1,22 @@
+span {
+    position: relative;
+    /* Resmin üzerine SİL yazısını yerleştirmek için */
+}
+
+span:hover {
+    cursor: pointer;
+    opacity: 0.7;
+    /* Sönük bir renk efekti için */
+}
+
+span:hover:after {  
+  content: "\f1f8"; /* Çöp kutusu simgesi için unicode karakteri kullanın */
+  font-family: FontAwesome; /* FontAwesome kütüphanesi için font-family */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 20px;
+  color: white;
+  text-shadow: 0 0 5px black;
+}

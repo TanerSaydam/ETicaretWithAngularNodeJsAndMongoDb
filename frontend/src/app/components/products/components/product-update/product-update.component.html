@@ -1,0 +1,126 @@
+<app-blank title="Ürün Güncelleme Sayfası" [routes]="routes">
+    <div class="row center">
+        <div class="col-md-6">
+            <form #updateForm="ngForm" (ngSubmit)="update(updateForm)">
+                <div class="form-group">
+                    <label for="name">Ürün Adı</label>
+                    <input
+                      type="text"
+                      name="name"
+                      id="name"
+                      [(ngModel)]="product.name"
+                      required
+                      minlength="3"
+                      class="form-control"
+                      #name
+                      [appValid]="name.validity.valid">
+                    <div class="invalid-feedback">
+                        Ürün adı en az 3 karakter olmalıdır!
+                    </div>
+                </div>
+                <div class="form-group mt-2">
+                    <label for="categoriesSelect">Kategoriler</label>
+                    <select
+                        class="form-control"
+                        name="categoriesSelect"
+                        id="categoriesSelect"
+                        ngModel
+                        multiple
+                        required
+                        #categoriesSelect                    
+                        [appValid]="categoriesSelect.validity.valid">                    
+                        <option *ngFor="let category of categories"
+                        value="{{category._id}}">
+                            {{category.name}}
+                        </option>
+                    </select>
+                    <div class="invalid-feedback">
+                        Kategori seçimi yapmadınız!
+                    </div>
+                </div>
+                <div class="form-group mt-2">
+                    <label for="description">Açıklama</label>
+                    <textarea 
+                        class="form-control"
+                        #description
+                        name="description"
+                        id="description"
+                        [appValid]="description.validity.valid"
+                        required
+                        [(ngModel)]="product.description"
+                        minlength="5"
+                        rows="5">
+                    </textarea>
+                    <div class="invalid-feedback">
+                        Ürün açıklaması en az 5 karakter olmalıdır!
+                    </div>
+                </div>
+                <div class="form-group mt-2">
+                    <label for="stock">Stok Adedi</label>
+                    <input 
+                        type="text"
+                        #stock
+                        name="stock"
+                        id="stock"
+                        [appValid]="stock.validity.valid"
+                        required
+                        [(ngModel)]="product.stock"
+                        min="1"
+                        value="1"
+                        class="form-control">
+                    <div class="invalid-feedback">
+                        Stok adedi en az 1 olmalıdır!
+                    </div>
+                </div>
+                <div class="form-group mt-2">
+                    <label for="price">Birim Fiyatı</label>
+                    <input 
+                        type="text"
+                        name="price"
+                        id="price"
+                        #price
+                        required
+                        [(ngModel)]="product.price"
+                        class="form-control"
+                        min="1"
+                        value="1"
+                        [appValid]="price.validity.valid">
+                    <div class="invalid-feedback">
+                        Birim fiyatı en az 1 olmalıdır!
+                    </div>
+                </div>               
+                <div class="form-group mt-2">
+                    <label for="images">Resimler</label>
+                    <input 
+                        type="file"
+                        name="images"
+                        id="images"
+                        multiple
+                        #images
+                        ngModel
+                        class="form-control"
+                        (change)="getImages($event)">
+                    <div class="invalid-feedback">
+                        En az 1 tane resim seçmelisiniz!
+                    </div>
+                </div>
+                <hr>
+                <div class="form-group mt-2">
+                    <p>Mevcut Resimler</p>
+                    <span (click)="deleteImage()" *ngFor="let image of product.imageUrls">
+                    <img [src]="'http://localhost:3000/' + image.path" width="100" class="mx-1">                    
+                    </span>
+                </div>
+    
+                <div class="form-group mt-2">
+                    <app-loading-button 
+                        [form]="updateForm"
+                        btnName="Güncelle"
+                        btnLoadingName="Güncelleniyor..."
+                        btnClassName="btn btn-outline-warning w-100"
+                        btnLoadingClassName="btn btn-outline-warning w-100"></app-loading-button>
+                </div>
+            </form>
+        </div>
+    </div>
+</app-blank>
