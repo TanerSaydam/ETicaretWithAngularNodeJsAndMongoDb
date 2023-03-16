@@ -45,13 +45,13 @@
                         <!-- <div class="form-check">
                             <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>                            
                         </div> -->
-                        <section class="example-section">
+                        <section class="example-section center">
                             <mat-slide-toggle
                                 class="example-margin"
                                 [color]="color"
-                                [checked]="checked"
-                                [disabled]="disabled">
-                              Slide me!
+                                [checked]="product.isActive"
+                                [disabled]="disabled"
+                                (change)="changeActiveStatus(product._id)">
                             </mat-slide-toggle>
                           </section>
                     </td>                        

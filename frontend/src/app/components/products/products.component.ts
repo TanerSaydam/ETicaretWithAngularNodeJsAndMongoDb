@@ -21,8 +21,7 @@ import { ThemePalette } from '@angular/material/core';
   styleUrls: ['./products.component.css']
 })
 export class ProductsComponent {
-  color: ThemePalette = 'accent';
-  checked = false;
+  color: ThemePalette = 'accent';  
   disabled = false;
   products: ProductModel[] = [];
   search: string = "";
@@ -74,6 +73,12 @@ export class ProductsComponent {
 
   setImageForModal(product: ProductModel){
     this.product = {...product};
+  }
+
+  changeActiveStatus(_id: string){
+    this._product.changeActiveStatus(_id,res=>{
+      this._toastr.info(res.message);
+    })
   }
 
 }

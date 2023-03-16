@@ -29,4 +29,11 @@ export class ProductService {
       callBack(res);
     })
   }
+
+  changeActiveStatus(_id: string, callBack: (res: MessageResultModel)=> void){
+    let model = {_id: _id};
+    this._http.post<MessageResultModel>("products/changeActiveStatus",model, res=> {
+      callBack(res);
+    });
+  }
 }
