@@ -1,78 +1,73 @@
-<div class="container" style="margin-top: 20px;">
-    <div class="card">
-        <div class="card-header">
-            <h4 style="float: left;">Ürünler</h4>
-            <nav aria-label="breadcrumb" style="float: right; margin-top: 5px;">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item">
-                        <a routerLink="/">Ana Sayfa</a>
-                    </li>
-                    <li class="breadcrumb-item active" aria-current="page">
-                        Ürünler
-                    </li>
-                </ol>
-            </nav>
+<app-blank title="Ürünler" [routes]="routes">
+    <div class="form-group">
+        <button routerLink="/admin/products/add" class="btn btn-outline-primary">
+            <i class="fa fa-plus"></i>
+        </button>
+        <div class="col-md-3" style="float: right;">
+            <input type="search" class="form-control" [(ngModel)]="search" placeholder="Aranacak değeri yazın...">
         </div>
     </div>
-
-    <div class="card mt-2">
-        <div class="card-body">
-            <div class="form-group">
-                <button class="btn btn-outline-primary">
-                    <i class="fa fa-plus"></i>
-                </button>
-                <div class="col-md-3" style="float: right;">
-                    <input type="search" class="form-control" [(ngModel)]="search" placeholder="Aranacak değeri yazın...">
-                </div>
-            </div>
-            <div class="form-group mt-2">
-                <table class="table table-bordered table-hover">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Ürün Resmi</th>
-                            <th>Ürün Adı</th>
-                            <th>Açıklama</th>
-                            <th>Kategoriler</th>
-                            <th>Stok Bilgisi</th>
-                            <th>Birim Fiyatı</th>
-                            <th>Oluşturulma Tarihi</th>
-                            <th>İşlemler</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let product of products | productPipe: search let index = index">
-                            <td>{{index + 1}}</td>
-                            <td class="text-center" (click)="setImageForModal(product)" data-bs-toggle="modal" data-bs-target="#imageModal">
-                                <img [src]="'http://localhost:3000/' + product.imageUrls[0].path" width="50">
-                            </td>
-                            <td>{{product.name}}</td>
-                            <td>{{product.description}}</td>
-                            <td>
-                                <ul>
-                                    <li *ngFor="let category of product.categories">
-                                        {{category.name}}
-                                    </li>
-                                </ul>
-                            </td>
-                            <td>{{product.stock}}</td>
-                            <td>{{product.price}}</td>
-                            <td>{{product.createdDate | date:'dd.MM.yyyy HH:mm:ss'}}</td>                            
-                            <td>
-                                <button class="btn btn-outline-warning btn-sm mx-1">
-                                    <i class="fa fa-edit"></i>
-                                </button>
-                                <button (click)="removeById(product)" class="btn btn-outline-danger btn-sm">
-                                    <i class="fa fa-trash"></i>
-                                </button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+    <div class="form-group mt-2" style="overflow: auto;">
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>                            
+                    <th>Ürün Resmi</th>
+                    <th>Ürün Adı</th>
+                    <th>Açıklama</th>
+                    <th>Kategoriler</th>
+                    <th>Stok Bilgisi</th>
+                    <th>Birim Fiyatı</th>
+                    <th>Oluşturulma Tarihi</th>
+                    <th>Aktif/Pasif</th>
+                    <th>İşlemler</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let product of products | productPipe: search let index = index">
+                    <td>{{index + 1}}</td>
+                    <td class="text-center" (click)="setImageForModal(product)" data-bs-toggle="modal" data-bs-target="#imageModal">
+                        <img [src]="'http://localhost:3000/' + product.imageUrls[0].path" width="50">
+                    </td>
+                    <td>{{product.name}}</td>
+                    <td>{{product.description}}</td>
+                    <td>
+                        <ul>
+                            <li *ngFor="let category of product.categories">
+                                {{category.name}}
+                            </li>
+                        </ul>
+                    </td>
+                    <td>{{product.stock}}</td>
+                    <td>{{product.price}}</td>
+                    <td>{{product.createdDate | date:'dd.MM.yyyy HH:mm:ss'}}</td>    
+                    <td>
+                        <!-- <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>                            
+                        </div> -->
+                        <section class="example-section">
+                            <mat-slide-toggle
+                                class="example-margin"
+                                [color]="color"
+                                [checked]="checked"
+                                [disabled]="disabled">
+                              Slide me!
+                            </mat-slide-toggle>
+                          </section>
+                    </td>                        
+                    <td>
+                        <button class="btn btn-outline-warning btn-sm mx-1">
+                            <i class="fa fa-edit"></i>
+                        </button>
+                        <button (click)="removeById(product)" class="btn btn-outline-danger btn-sm">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
-</div>
+</app-blank>
 
 <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">

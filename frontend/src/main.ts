@@ -1,7 +1,7 @@
 import { importProvidersFrom } from "@angular/core";
 import { bootstrapApplication, BrowserModule } from "@angular/platform-browser";
 import { AppComponent } from "./app/app.component";
-import { provideHttpClient } from '@angular/common/http'
+import { HttpErrorResponse, provideHttpClient } from '@angular/common/http'
 import { RouterModule } from "@angular/router";
 import { routes } from "./app/router";
 import { StoreModule } from "@ngrx/store";
@@ -9,7 +9,6 @@ import { loadingReducer } from "./app/commons/components/loading-button/states/l
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { SweetAlert2Module } from "@sweetalert2/ngx-sweetalert2";
-
 import { SocialLoginModule, SocialAuthServiceConfig, GoogleSigninButtonModule } from '@abacritt/angularx-social-login';
 import {
   GoogleLoginProvider  
@@ -31,7 +30,7 @@ bootstrapApplication(AppComponent, {
         timeOut: 3000,
         preventDuplicates: true
       }),
-      SweetAlert2Module.forRoot()
+      SweetAlert2Module.forRoot(), BrowserAnimationsModule, BrowserAnimationsModule
     ), 
     {
       provide: 'SocialAuthServiceConfig',
@@ -45,7 +44,7 @@ bootstrapApplication(AppComponent, {
             )
           }
         ],
-        onError: (err) => {
+        onError: (err:HttpErrorResponse) => {
           console.error(err);
         }
       } as SocialAuthServiceConfig,

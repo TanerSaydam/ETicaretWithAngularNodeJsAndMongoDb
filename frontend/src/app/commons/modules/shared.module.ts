@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ValidDirective } from '../directives/valid.directive';
 import { LoadingButtonComponent } from '../components/loading-button/loading-button.component';
+import { BlankComponent } from '../components/blank/blank.component';
 
 
 
@@ -14,14 +15,16 @@ import { LoadingButtonComponent } from '../components/loading-button/loading-but
     RouterModule,
     FormsModule,
     ValidDirective,
-    LoadingButtonComponent
+    LoadingButtonComponent,
+    BlankComponent
   ],
   exports: [
     CommonModule,
     RouterModule,
     FormsModule,
     ValidDirective,
-    LoadingButtonComponent
+    LoadingButtonComponent,
+    BlankComponent
   ]
 })
 export class SharedModule { }

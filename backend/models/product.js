@@ -9,6 +9,7 @@ const productSchema = new mongoose.Schema({
     price: Number,
     createdDate: Date,
     updatedDate: Date,
+    isActive: Boolean,
     categories: [{type: String, ref: 'Category'}]
 });
 

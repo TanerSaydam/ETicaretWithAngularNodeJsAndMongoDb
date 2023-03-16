@@ -8,5 +8,6 @@ export class ProductModel{
     categories: CategoryModel[] = [];
     stock: number = 0;
     price: number = 0;
+    isActive: boolean = true;
     createdDate: string = "";
 }

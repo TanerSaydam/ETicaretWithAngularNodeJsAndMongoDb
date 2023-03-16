@@ -41,7 +41,16 @@ export const routes: Routes = [
                     },
                     {
                         path: "products",
-                        loadComponent: ()=> import("./components/products/products.component").then(c=> c.ProductsComponent)
+                        children: [
+                            {
+                                path:"",
+                                loadComponent: ()=> import("./components/products/products.component").then(c=> c.ProductsComponent)
+                            },
+                            {
+                                path: "add",
+                                loadComponent: ()=> import("./components/products/product-add/product-add.component").then(c=> c.ProductAddComponent)
+                            }
+                        ]
                     }
                 ]
             },

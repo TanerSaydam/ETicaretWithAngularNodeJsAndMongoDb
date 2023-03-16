@@ -7,9 +7,11 @@ const {v4:uuidv4} = require("uuid");
 const fs = require("fs");
 
 //Ürün Ekleme
-router.post("/add", upload.array("image"),async(req,res)=>{
+router.post("/add", upload.array("images"),async(req,res)=>{
     response(res, async()=>{
         const {name, description, stock, price, categories} = req.body;
+        console.log(categories);
+        
         const productId = uuidv4()
         let product = new Product({
             _id: productId,
@@ -19,6 +21,7 @@ router.post("/add", upload.array("image"),async(req,res)=>{
             price: price,
             imageUrls: req.files,
             categories: categories,
+            isActive: true,
             createdDate: new Date(),
         });
         await product.save();        

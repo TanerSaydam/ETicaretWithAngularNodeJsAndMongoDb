@@ -1,0 +1,117 @@
+<app-blank title="Ürün Ekleme Sayfası" [routes]="routes" sectionTitle="Ürün Ekleme Formu">
+<div class="row center">
+    <div class="col-md-6">
+        <form #addForm="ngForm" (ngSubmit)="add(addForm)">
+            <div class="form-group">
+                <label for="name">Ürün Adı</label>
+                <input
+                  type="text"
+                  name="name"
+                  id="name"
+                  ngModel
+                  required
+                  minlength="3"
+                  class="form-control"
+                  #name
+                  [appValid]="name.validity.valid">
+                <div class="invalid-feedback">
+                    Ürün adı en az 3 karakter olmalıdır!
+                </div>
+            </div>
+            <div class="form-group mt-2">
+                <label for="categoriesSelect">Kategoriler</label>
+                <select
+                    class="form-control"
+                    name="categoriesSelect"
+                    id="categoriesSelect"
+                    ngModel
+                    multiple
+                    required
+                    #categoriesSelect                    
+                    [appValid]="categoriesSelect.validity.valid">                    
+                    <option *ngFor="let category of categories"
+                    value="{{category._id}}">
+                        {{category.name}}
+                    </option>
+                </select>
+                <div class="invalid-feedback">
+                    Kategori seçimi yapmadınız!
+                </div>
+            </div>
+            <div class="form-group mt-2">
+                <label for="description">Açıklama</label>
+                <textarea 
+                    class="form-control"
+                    #description
+                    name="description"
+                    id="description"
+                    [appValid]="description.validity.valid"
+                    required
+                    ngModel
+                    minlength="5"
+                    rows="5">
+                </textarea>
+                <div class="invalid-feedback">
+                    Ürün açıklaması en az 5 karakter olmalıdır!
+                </div>
+            </div>
+            <div class="form-group mt-2">
+                <label for="stock">Stok Adedi</label>
+                <input 
+                    type="text"
+                    #stock
+                    name="stock"
+                    id="stock"
+                    [appValid]="stock.validity.valid"
+                    required
+                    ngModel
+                    min="1"
+                    value="1"
+                    class="form-control">
+                <div class="invalid-feedback">
+                    Stok adedi en az 1 olmalıdır!
+                </div>
+            </div>
+            <div class="form-group mt-2">
+                <label for="price">Birim Fiyatı</label>
+                <input 
+                    type="text"
+                    name="price"
+                    id="price"
+                    #price
+                    required
+                    ngModel
+                    class="form-control"
+                    min="1"
+                    value="1"
+                    [appValid]="price.validity.valid">
+                <div class="invalid-feedback">
+                    Birim fiyatı en az 1 olmalıdır!
+                </div>
+            </div>
+            <div class="form-group mt-2">
+                <label for="images">Resimler</label>
+                <input 
+                    type="file"
+                    name="images"
+                    id="images"
+                    multiple
+                    #images
+                    ngModel
+                    class="form-control"
+                    (change)="getImages($event)">
+                <div class="invalid-feedback">
+                    En az 1 tane resim seçmelisiniz!
+                </div>
+            </div>
+
+            <div class="form-group mt-2">
+                <app-loading-button 
+                    [form]="addForm"
+                    btnName="Kaydet"
+                    btnLoadingName="Kaydediliyor..."></app-loading-button>
+            </div>
+        </form>
+    </div>
+</div>
+</app-blank>

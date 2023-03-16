@@ -9,20 +9,38 @@ import { UserModel } from '../users/models/user.model';
 import { Router } from '@angular/router';
 import { SwalService } from 'src/app/commons/services/swal.service';
 import { ToastrService } from 'ngx-toastr';
+import { RoutesModel } from 'src/app/commons/components/blank/models/routes.model';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { ThemePalette } from '@angular/material/core';
 
 @Component({
   selector: 'app-products',
   standalone: true,
-  imports: [SharedModule, ProductPipe],
+  imports: [SharedModule, ProductPipe, MatSlideToggleModule],
   templateUrl: './products.component.html',
   styleUrls: ['./products.component.css']
 })
 export class ProductsComponent {
+  color: ThemePalette = 'accent';
+  checked = false;
+  disabled = false;
   products: ProductModel[] = [];
   search: string = "";
   user: UserModel = new UserModel();
   product: ProductModel = new ProductModel();
-
+  routes: RoutesModel[] = [
+    {
+      name: "Ana Sayfa",
+      link: "/",
+      class: "",
+    },
+    {
+      name: "Ürünler",
+      link: "/admin/products",
+      class: "active",
+    }
+  ]
+  
   constructor(
     private _product: ProductService,
     private _crypto: CryptoService,

@@ -12,6 +12,12 @@ export class ProductService {
     private _http: GenericHttpService
   ) { }
 
+  add(model:FormData, callBack: (res: MessageResultModel)=> void){
+    this._http.post<MessageResultModel>("products/add",model, res=>{
+      callBack(res);
+    })
+  }
+
   getAll(callBack: (res: ProductModel[])=> void){
     this._http.get<ProductModel[]>("products", res=>{
       callBack(res);
