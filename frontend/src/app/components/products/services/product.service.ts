@@ -18,6 +18,12 @@ export class ProductService {
     })
   }
 
+  update(model:FormData, callBack: (res: MessageResultModel)=> void){
+    this._http.post<MessageResultModel>("products/update",model, res=>{
+      callBack(res);
+    })
+  }
+
   getAll(callBack: (res: ProductModel[])=> void){
     this._http.get<ProductModel[]>("products", res=>{
       callBack(res);

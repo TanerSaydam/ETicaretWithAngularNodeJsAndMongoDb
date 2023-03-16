@@ -10,8 +10,7 @@ const fs = require("fs");
 router.post("/add", upload.array("images"),async(req,res)=>{
     response(res, async()=>{
         const {name, description, stock, price, categories} = req.body;
-        console.log(categories);
-        
+                
         const productId = uuidv4()
         let product = new Product({
             _id: productId,
@@ -70,6 +69,29 @@ router.post("/getById", async(req,res)=>{
         const {_id} = req.body;
         let product = await Product.findById(_id);
         res.json(product);
+    });
+});
+
+//Ürün Güncelleme
+router.post("/update", upload.array("images"),async(req,res)=>{
+    response(res, async()=>{
+        const {_id,name, description, stock, price, categories} = req.body;        
+                
+        let product = await Product.findById(_id);
+        let imageUrls;
+        imageUrls= [...product.imageUrls,...req.files];        
+        product = {            
+            name: name.toUpperCase(),
+            description: description,
+            stock: stock,
+            price: price,
+            imageUrls: imageUrls,
+            categories: categories,
+            updatedDate: new Date(),
+        };
+        await Product.findByIdAndUpdate(_id, product);
+
+        res.json({message: "Ürün kaydı başarıyla güncellendi!"});
     });
 });
 
