@@ -152,6 +152,7 @@ router.post("/getAllByHomePage", async(req, res)=>{
        
         let productCount = await Product.find({
             categories: { $in: categoryId },
+            isActive: true,            
             $or: [
             { name: { $regex: search, $options: 'i' } },
             { description: { $regex: search, $options: 'i' } }
@@ -161,6 +162,7 @@ router.post("/getAllByHomePage", async(req, res)=>{
         let products = await Product
                 .find({
                     categories: { $in: categoryId },
+                    isActive: true,
                         $or: [
                         { name: { $regex: search, $options: 'i' } },
                         { description: { $regex: search, $options: 'i' } }
