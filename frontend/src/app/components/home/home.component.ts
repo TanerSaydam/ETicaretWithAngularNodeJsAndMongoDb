@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { RoutesModel } from 'src/app/commons/components/blank/models/routes.model';
 import { PaginationResponseModel } from 'src/app/commons/models/pagination-response.model';
 import { RequestModel } from 'src/app/commons/models/request.model';
@@ -14,7 +15,7 @@ import { ProductService } from '../products/services/product.service';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [SharedModule, CategoryPipe, TrCurrencyPipe],
+  imports: [SharedModule, CategoryPipe, TrCurrencyPipe, InfiniteScrollModule],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
@@ -44,6 +45,11 @@ export class HomeComponent implements OnInit {
     this.getProducts();
   }
 
+  onScroll() {
+    this.request.pageSize += 9;
+    this.getProducts(this.request.categoryId);
+  }
+
   getCategories(){
     this._categories.getAll(res=> this.categories = res);
   }
@@ -59,6 +65,7 @@ export class HomeComponent implements OnInit {
 
   changeCategory(_id: string = "", name: string = ""){
     this.selectedCategory = name;    
+    this.request.pageSize = 9;
     this.getProducts(_id);
   }
 }

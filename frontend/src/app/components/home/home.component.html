@@ -1,7 +1,7 @@
 <app-blank title="Ana Sayfa">
     <div class="row">
         <div class="col-md-3">
-            <div class="card" style="padding: 20px">
+            <div class="card category rounded-4" style="padding: 20px">
                 <div class="car-header text-center">
                     <h1>Kategoriler</h1>
                     <input [(ngModel)]="search" class="form-control" type="search" placeholder="Aranacak değer...">
@@ -18,9 +18,42 @@
             </div>
         </div>
         <div class="col-md-8" style="margin-left: 20px;">
-            <div class="row">
+            <div class="form-group filter">
+                <h2 class="my-title">Filitre</h2>
+                <form action="">
+                <div class="row mt-2">
+                        <div class="col-md-3">
+                            <label for="categoryId">Kategori</label>
+                            <select name="categoryId" class="form-control" id="categoryId">
+                                <option *ngFor="let category of categories" [value]="category._id">
+                                    {{category.name}}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-md-5">
+                            <label for="search">Arama Değeri</label>
+                            <input type="search" class="form-control" name="search" id="search">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="priceSort">Fiyat</label>
+                            <select name="priceSort" class="form-control" id="priceSort">
+                                <option value="">Seçim Yapınız...</option>
+                                <option value="1">Ucuzdan Pahalıya</option>
+                                <option value="2">Pahalıdan Ucuza</option>
+                            </select>
+                        </div>
+                        <div class="col-md-1">
+                            <label style="color:white">.</label>
+                            <button class="btn btn-outline-primary w-100">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="row mt-2" infiniteScroll (scrolled)="onScroll()">
                 <div class="col-md-4 mt-2" *ngFor="let product of result.data">
-                    <div class="card">
+                    <div class="card rounded-4">
                         <img width="150" height="180" style="object-fit: cover;" [src]="'http://localhost:3000/' + product.imageUrls[0].path" class="card-img-top">
                         <hr>
                         <div class="card-body text-center">

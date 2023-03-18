@@ -24,6 +24,7 @@
     "@ngrx/store": "^15.2.0",
     "@sweetalert2/ngx-sweetalert2": "^12.1.0",
     "crypto-js": "^4.1.1",
+    "ngx-infinite-scroll": "^15.0.0",
     "ngx-toastr": "^16.1.0",
     "rxjs": "~7.8.0",
     "sweetalert2": "^11.7.3",

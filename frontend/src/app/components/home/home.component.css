@@ -25,3 +25,21 @@
     white-space: nowrap;
     text-overflow: ellipsis;
 }
+
+
+.filter{
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 20px;   
+    position: relative;
+}
+
+.my-title {
+    background-color: white;
+    padding-left: 3px;
+    padding-right: 3px;
+    position: absolute;
+    top: -15px; /* Başlığı çerçevenin üstüne taşımak için gerekli boşluğu ayarlayın */
+    left: 20px; /* Başlığı sola hizalamak için gerekli boşluğu ayarlayın */
+    z-index: 1; /* Başlığı çerçevenin üzerine taşımak için z-index değerini ayarlayın */
+  }
