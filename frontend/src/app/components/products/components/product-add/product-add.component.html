@@ -25,8 +25,7 @@
                     name="categoriesSelect"
                     id="categoriesSelect"
                     ngModel
-                    multiple
-                    required
+                    multiple                    
                     #categoriesSelect                    
                     [appValid]="categoriesSelect.validity.valid">                    
                     <option *ngFor="let category of categories"
@@ -104,13 +103,13 @@
                     En az 1 tane resim seçmelisiniz!
                 </div>
             </div>
-            <!-- <hr>
+            <hr>
                 <div class="form-group mt-2">
-                    <p>Mevcut Resimler</p>
-                    <span (click)="deleteImage()" *ngFor="let image of product.imageUrls">
-                    <img [src]="'http://localhost:3000/' + image.path" width="100" class="mx-1">                    
+                    <p>Seçilen Resimler</p>
+                    <span (click)="removeImage(image.index, i)" *ngFor="let image of imageUrls let i = index">
+                    <img [src]="image.imageUrl" width="100" class="mx-1">                    
                     </span>
-            </div> -->
+            </div>
 
             <div class="form-group mt-2">
                 <app-loading-button 
