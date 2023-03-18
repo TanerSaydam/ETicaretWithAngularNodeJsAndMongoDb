@@ -1,0 +1,27 @@
+.link{
+    padding: 20px;
+    border-bottom: 1px solid #ccc;
+    font-size: large;
+    cursor: pointer;
+}
+
+.link:hover{
+    /* border: 1px solid #ccc; */
+    background-color: #f1f1f1;
+    color: black;
+}
+
+.active{
+    background-color: #0d6efd;
+    color: white;
+}
+
+.card{
+    padding: 10px;
+}
+
+.card-text{
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}

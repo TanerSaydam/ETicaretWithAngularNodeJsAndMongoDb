@@ -7,6 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 import { NgForm } from '@angular/forms';
 import { CategoryService } from '../../../categories/services/category.service';
 import { CategoryModel } from '../../../categories/models/category.model';
+import { SwalService } from 'src/app/commons/services/swal.service';
 
 
 @Component({
@@ -42,7 +43,8 @@ export class ProductAddComponent implements OnInit {
   constructor(
     private _product: ProductService,
     private _toastr: ToastrService,
-    private _category: CategoryService
+    private _category: CategoryService,
+    private _swal: SwalService
   ) { }
 
   ngOnInit(): void {
@@ -53,7 +55,7 @@ export class ProductAddComponent implements OnInit {
     const file: File[] = Array.from(event.target.files);
     this.images.push(...file);
     //this.imageUrls = [];
-
+    console.log(this.images);
     for (let i = 0; i < event.target.files.length; i++) {
       const file: File = event.target.files[i];
 
@@ -62,19 +64,22 @@ export class ProductAddComponent implements OnInit {
 
       reader.onload = () => {
         const imageUrl = reader.result as string;
-        this.addImage(imageUrl, i);
+        this.addImage(imageUrl, file);
       };
     }
   }
 
-  addImage(imageUrl: string, index:number) {
+  addImage(imageUrl: string, file:File) {
     this.imageUrls.push(
-      {imageUrl: imageUrl, index: index});
+      {imageUrl: imageUrl, name: file.name, size: file.size});
   }
 
-  removeImage(imgeIndex: number,index:number){
-    this.imageUrls.splice(index,1);
-    this.images.splice(imgeIndex,1);
+  removeImage(name: string, size:number,index:number){    
+    this._swal.callSwal("Resmi silmek istiyor musunuz?","Sil",()=>{
+      this.imageUrls.splice(index,1);
+    let i = this.images.findIndex(p=> p.name ==name && p.size == size);
+    this.images.splice(i, 1);
+  })    
   }
 
   getCategories() {

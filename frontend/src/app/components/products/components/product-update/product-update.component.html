@@ -107,7 +107,7 @@
                 <hr>
                 <div class="form-group mt-2">
                     <p>Mevcut Resimler</p>
-                    <span (click)="deleteImage()" *ngFor="let image of product.imageUrls">
+                    <span (click)="deleteImage(product._id,i)" *ngFor="let image of product.imageUrls let i = index">
                     <img [src]="'http://localhost:3000/' + image.path" width="100" class="mx-1">                    
                     </span>
                 </div>

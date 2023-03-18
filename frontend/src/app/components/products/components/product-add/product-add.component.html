@@ -106,7 +106,7 @@
             <hr>
                 <div class="form-group mt-2">
                     <p>Seçilen Resimler</p>
-                    <span (click)="removeImage(image.index, i)" *ngFor="let image of imageUrls let i = index">
+                    <span (click)="removeImage(image.name, image.size, i)" *ngFor="let image of imageUrls let i = index">
                     <img [src]="image.imageUrl" width="100" class="mx-1">                    
                     </span>
             </div>

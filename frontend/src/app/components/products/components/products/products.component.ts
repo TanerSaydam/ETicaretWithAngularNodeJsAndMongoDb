@@ -11,6 +11,8 @@ import { UserModel } from 'src/app/components/users/models/user.model';
 import { ProductModel } from '../../models/product.model';
 import { ProductPipe } from '../../pipes/product.pipe';
 import { ProductService } from '../../services/product.service';
+import { RequestModel } from 'src/app/commons/models/request.model';
+import { PaginationResponseModel } from 'src/app/commons/models/pagination-response.model';
 
 @Component({
   selector: 'app-products',
@@ -22,10 +24,11 @@ import { ProductService } from '../../services/product.service';
 export class ProductsComponent {
   color: ThemePalette = 'accent';  
   disabled = false;
-  products: ProductModel[] = [];
-  search: string = "";
+  product: ProductModel = new ProductModel();  
   user: UserModel = new UserModel();
-  product: ProductModel = new ProductModel();
+  result: PaginationResponseModel<ProductModel[]> = new PaginationResponseModel<ProductModel[]>();
+  request: RequestModel = new RequestModel();
+  pageNumbers: number[] = [];
   routes: RoutesModel[] = [
     {
       name: "Ana Sayfa",
@@ -54,10 +57,21 @@ export class ProductsComponent {
     this.getAll();    
   }
 
-  getAll(){
-    this._product.getAll(res=>{
-      this.products = res;
+  getAll(pageNumber = 1){
+    this.request.pageNumber = pageNumber;
+    this._product.getAll(this.request,res=>{
+      this.result = res;
+      this.setPageNumbers();
     })
+  }
+
+  setPageNumbers(){
+    const startPage = Math.max(1, this.result.pageNumber - 2);
+    const endPage = Math.min(this.result.totalPageCount, this.result.pageNumber + 2);
+    this.pageNumbers = [];
+    for (let i = startPage; i <= endPage; i++) {
+      this.pageNumbers.push(i);
+    }
   }
 
   removeById(product: ProductModel){
@@ -78,6 +92,12 @@ export class ProductsComponent {
     this._product.changeActiveStatus(_id,res=>{
       this._toastr.info(res.message);
     })
+  }
+
+  search(){
+    if(this.request.search.length >=3){
+      this.getAll(1);
+    }
   }
 
 }

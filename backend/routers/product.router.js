@@ -45,10 +45,39 @@ router.post("/removeById", async(req, res)=>{
 })
 
 //Ürün Listesi Getir
-router.get("/", async(req, res)=>{
+router.post("/", async(req, res)=>{
     response(res, async ()=>{
-        let products = await Product.find().sort({name: 1}).populate("categories")
-        res.json(products);
+        const {pageNumber, pageSize, search} = req.body;
+       
+        let productCount = await Product.find({
+            $or: [
+            { name: { $regex: search, $options: 'i' } },
+            { description: { $regex: search, $options: 'i' } }
+            ]
+        }).count();
+        
+        let products = await Product
+                .find({
+                        $or: [
+                        { name: { $regex: search, $options: 'i' } },
+                        { description: { $regex: search, $options: 'i' } }
+                        ]
+                    })
+                .sort({name: 1})
+                .populate("categories")
+                .skip((pageNumber - 1) * pageSize)
+                .limit(pageSize);;
+
+        let totalPageCount = Math.ceil(productCount / pageSize);
+        let model = {
+            data: products,
+            pageNumber: pageNumber,
+            pageSize: pageSize,
+            totalPageCount: totalPageCount,
+            isFirstPage: pageNumber === 1 ? true : false,
+            isLastPage: totalPageCount === pageNumber ? true : false
+        };
+        res.json(model);
     });
 })
 
@@ -78,6 +107,10 @@ router.post("/update", upload.array("images"),async(req,res)=>{
         const {_id,name, description, stock, price, categories} = req.body;        
                 
         let product = await Product.findById(_id);
+        for (const image of product.imageUrls) {
+            fs.unlink(image.path, ()=>{});
+        }
+
         let imageUrls;
         imageUrls= [...product.imageUrls,...req.files];        
         product = {            
@@ -94,5 +127,61 @@ router.post("/update", upload.array("images"),async(req,res)=>{
         res.json({message: "Ürün kaydı başarıyla güncellendi!"});
     });
 });
+
+//Ürün Resmi Sil
+router.post("/removeImageByProductIdAndIndex", async(req, res)=>{
+    response(res, async()=>{
+        const {_id, index} = req.body;
+        let product = await Product.findById(_id);
+        if(product.imageUrls.length == 1){
+            res.status(500).json({message: "Son ürün resmi silinemez! En az 1 ürün resmi bulunmak zorundadır!"});
+        }else{
+            let image = product.imageUrls[index];
+            product.imageUrls.splice(index,1);
+            await Product.findByIdAndUpdate(_id, product);
+            fs.unlink(image.path, ()=>{});
+            res.json({message: "Resim başarıyla kaldırıldı"});
+        }        
+    })
+});
+
+//Ürün Listesini Ana Sayfa İçin Getir
+router.post("/getAllByHomePage", async(req, res)=>{
+    response(res, async ()=>{
+        const {pageNumber, pageSize, search, categoryId} = req.body;
+       
+        let productCount = await Product.find({
+            categories: { $in: categoryId },
+            $or: [
+            { name: { $regex: search, $options: 'i' } },
+            { description: { $regex: search, $options: 'i' } }
+            ]
+        }).count();
+        
+        let products = await Product
+                .find({
+                    categories: { $in: categoryId },
+                        $or: [
+                        { name: { $regex: search, $options: 'i' } },
+                        { description: { $regex: search, $options: 'i' } }
+                        ]
+                    })
+                .sort({name: 1})
+                .populate("categories")
+                .skip((pageNumber - 1) * pageSize)
+                .limit(pageSize);;
+
+        let totalPageCount = Math.ceil(productCount / pageSize);
+        let model = {
+            data: products,
+            pageNumber: pageNumber,
+            pageSize: pageSize,
+            totalPageCount: totalPageCount,
+            isFirstPage: pageNumber === 1 ? true : false,
+            isLastPage: totalPageCount === pageNumber ? true : false
+        };
+        res.json(model);
+    });
+})
 
 module.exports = router;

@@ -101,9 +101,12 @@ export class ProductUpdateComponent implements OnInit {
     }
   }
 
-  deleteImage(){
+  deleteImage(_id: string, index: number){
     this._swal.callSwal("Resmi silmek istiyor musunuz?","Sil",()=>{
-
+        this._product.removeImageByProductIdAndIndex(_id, index, res=>{
+          this._toastr.warning(res.message);
+          this.getById();
+        });
     })
   }
 
