@@ -20,53 +20,125 @@
         <div class="col-md-8" style="margin-left: 20px;">
             <div class="form-group filter">
                 <h2 class="my-title">Filitre</h2>
-                <form action="">
+                <form #searchForm="ngForm" (ngSubmit)="searchProducts()">
                 <div class="row mt-2">
                         <div class="col-md-3">
                             <label for="categoryId">Kategori</label>
-                            <select name="categoryId" class="form-control" id="categoryId">
+                            <select [(ngModel)]="request.categoryId" name="categoryId" class="form-control" id="categoryId">
+                                <option value="">Seçim Yapınız...</option>
                                 <option *ngFor="let category of categories" [value]="category._id">
                                     {{category.name}}
                                 </option>
                             </select>
                         </div>
-                        <div class="col-md-5">
+                        <div class="col-md-4">
                             <label for="search">Arama Değeri</label>
-                            <input type="search" class="form-control" name="search" id="search">
+                            <input [(ngModel)]="request.search" type="search" class="form-control" name="search" id="search">
                         </div>
                         <div class="col-md-3">
                             <label for="priceSort">Fiyat</label>
-                            <select name="priceSort" class="form-control" id="priceSort">
-                                <option value="">Seçim Yapınız...</option>
+                            <select [(ngModel)]="request.priceSort" name="priceSort" class="form-control" id="priceSort">
+                                <option value="0">Seçim Yapınız...</option>
                                 <option value="1">Ucuzdan Pahalıya</option>
-                                <option value="2">Pahalıdan Ucuza</option>
+                                <option value="-1">Pahalıdan Ucuza</option>
                             </select>
                         </div>
-                        <div class="col-md-1">
-                            <label style="color:white">.</label>
-                            <button class="btn btn-outline-primary w-100">
+                        <div class="col-md-2" style="margin-top: 18px;">                            
+                            <button class="btn btn-outline-primary mx-2">
                                 <i class="fa fa-search"></i>
+                            </button>                            
+                            <button (click)="clear()" type="button" class="btn btn-outline-danger">
+                                <i class="fa fa-xmark"></i>
                             </button>
-                        </div>
+                        </div>                        
                     </div>
                 </form>
             </div>
+
+
             <div class="row mt-2" infiniteScroll (scrolled)="onScroll()">
                 <div class="col-md-4 mt-2" *ngFor="let product of result.data">
                     <div class="card rounded-4">
-                        <img width="150" height="180" style="object-fit: cover;" [src]="'http://localhost:3000/' + product.imageUrls[0].path" class="card-img-top">
+                        <img width="150" height="200" style="object-fit: cover;"
+                        [src]="'http://localhost:3000/' + product.imageUrls[0].path" class="card-img-top">
                         <hr>
-                        <div class="card-body text-center">
-                            <h3 class="card-text">
-                                {{product.name}}
-                            </h3>
-                          <p class="card-text">Stok Adedi: {{product.stock}}</p>
-                          <p class="card-text alert alert-danger">Birim Fiyatı: {{product.price | trCurrency}}</p>
-                          <a class="btn btn-primary text-white">Ürün Detayı</a>
+                        <div class="card-body">
+                            <div class="text-center">
+                                <h4 class="card-text strong">{{product.name}}</h4>                                
+                            </div>                            
+                            <div class="text-primary">
+                                <h4 class="text-muted pt-2 pb-3" style="float:left">Kalan Stok: {{product.stock}}</h4>
+                                <h4 class="card-text pt-2 strong" style="float:right">{{product.price | trCurrency}}</h4>
+                            </div>
+                            <a 
+                                class="btn btn-sm btn-outline-primary w-100" 
+                                data-bs-toggle="modal" 
+                                data-bs-target="#productDetailModal"
+                                (click)="getProduct(product)">Ürün Detayı</a>
                         </div>
-                      </div>
+                    </div>
                 </div>
-            </div>
+            </div>           
         </div>
     </div>
 </app-blank>
+
+<!-- Ürün Detay -->
+<div class="modal fade" id="productDetailModal" tabindex="-1" aria-labelledby="productDetailModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="productDetailModalLabel">Ürün Detay</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row" style="padding-right: 10px;">
+            <div class="col-md-8">
+                <div id="carouselExample" class="carousel slide p-4" style="border: 1px solid #ccc; border-radius: 10px;">
+                    <div class="carousel-inner">
+                      <div class="carousel-item active" *ngFor="let image of product.imageUrls">
+                        <img width="300" height="500" style="object-fit: cover;" [src]="'http://localhost:3000/' + image.path" class="d-block w-100">
+                      </div>                      
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                      <span class="carousel-control-prev-icon black-icon" aria-hidden="true"></span>
+                      <span class="visually-hidden">Önceki</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                      <span class="carousel-control-next-icon black-icon" aria-hidden="true"></span>
+                      <span class="visually-hidden">Sonraki</span>
+                    </button>
+                </div>
+                <h4 class="mt-2">Ürün Açıklaması: {{product.description}}</h4>
+            </div>
+            <div class="col-md-4 p-4" style="border: 1px solid #ccc; border-radius: 10px;">
+                <h1 class="text-center text-primary strong">{{product.name}}</h1>
+                <hr>
+                <h4 class="strong">Kategoriler</h4>
+                <span class="mx-2 p-2" *ngFor="let category of product.categories"
+                style="border: 1px solid #ccc; border-radius: 10px; background-color: #2c2b2b; color: white;">
+                    {{category.name}}
+                </span>
+                <hr>
+                <h4 class="strong">Stok Adedi: {{product.stock}}</h4>
+                <hr>
+                <h2 class="text-center strong">Adet Fiyatı</h2>
+                <h2 class="text-center text-danger">{{product.price | trCurrency}}</h2>
+                <hr>
+                <div class="form-group">
+                    <div class="row d-flex justify-content-center">
+                        <input (keyup)="checkQuantity()" [(ngModel)]="quantity" min="1" max="{{product.stock}}" type="number" class="form-control" style="text-align: center; font-size: xx-large;" value="1">
+                    </div>                     
+                </div>
+                <hr>
+                <h2 class="text-center strong">Toplam Tutar</h2>
+                <h2 class="alert alert-danger text-center">{{(product.price * quantity) | trCurrency}}</h2>
+                <form #blankForm="ngForm"></form>
+                <button class="btn btn-danger w-100" *ngIf="product.stock == 0">Ürün Stoku Bitti!</button>
+                <app-loading-button [form]="blankForm" *ngIf="product.stock > 0" btnName="Sepete Ekle" btnClassName="btn btn-success w-100" btnLoadingName="Sepete Ekleniyor..." btnLoadingClassName="btn btn-success w-100" iconClassName="fa fa-shopping-cart" (click)="addBasket()"></app-loading-button>                
+            </div>
+          </div>
+        </div>        
+      </div>
+    </div>
+</div>

@@ -148,30 +148,48 @@ router.post("/removeImageByProductIdAndIndex", async(req, res)=>{
 //Ürün Listesini Ana Sayfa İçin Getir
 router.post("/getAllByHomePage", async(req, res)=>{
     response(res, async ()=>{
-        const {pageNumber, pageSize, search, categoryId} = req.body;
-       
+        const {pageNumber, pageSize, search, categoryId, priceSort} = req.body;
+        
         let productCount = await Product.find({
-            categories: { $in: categoryId },
-            isActive: true,            
+            categories: { $regex: categoryId, $options: 'i' },
+            isActive: true,
             $or: [
             { name: { $regex: search, $options: 'i' } },
             { description: { $regex: search, $options: 'i' } }
             ]
         }).count();
         
-        let products = await Product
-                .find({
-                    categories: { $in: categoryId },
-                    isActive: true,
-                        $or: [
-                        { name: { $regex: search, $options: 'i' } },
-                        { description: { $regex: search, $options: 'i' } }
-                        ]
-                    })
-                .sort({name: 1})
-                .populate("categories")
-                .skip((pageNumber - 1) * pageSize)
-                .limit(pageSize);;
+        var products;
+        if(priceSort == 0){
+            products = await Product
+            .find({
+                isActive: true,
+                categories: { $regex: categoryId, $options: 'i' },
+                    $or: [
+                    { name: { $regex: search, $options: 'i' } },
+                    { description: { $regex: search, $options: 'i' } }
+                    ]
+                })
+            .sort({name: 1})
+            .populate("categories")
+            .skip((pageNumber - 1) * pageSize)
+            .limit(pageSize);
+        }else{
+            products = await Product
+            .find({
+                isActive: true,
+                categories: { $regex: categoryId, $options: 'i' },
+                    $or: [
+                    { name: { $regex: search, $options: 'i' } },
+                    { description: { $regex: search, $options: 'i' } }
+                    ]
+                })
+            .sort({price: priceSort})
+            .populate("categories")
+            .skip((pageNumber - 1) * pageSize)
+            .limit(pageSize);
+        }
+        
 
         let totalPageCount = Math.ceil(productCount / pageSize);
         let model = {

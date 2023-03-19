@@ -43,3 +43,12 @@
     left: 20px; /* Başlığı sola hizalamak için gerekli boşluğu ayarlayın */
     z-index: 1; /* Başlığı çerçevenin üzerine taşımak için z-index değerini ayarlayın */
   }
+
+
+  .btn-outline-primary:hover{
+    color: white !important;
+  }
+
+  .black-icon{
+    background-color: black !important;
+}

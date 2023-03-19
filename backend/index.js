@@ -10,6 +10,7 @@ const path = require("path");
 const authRouter = require("./routers/auth.router");
 const categoryRouter = require("./routers/category.router");
 const productRouter = require("./routers/product.router");
+const basketRouter = require("./routers/basket.router");
 
 //Api istekleri için
 const app = express();
@@ -34,6 +35,9 @@ app.use("/api/auth/", authRouter);
 
 //Category Router
 app.use("/api/categories/", categoryRouter);
+
+//Basket Router
+app.use("/api/baskets/", basketRouter);
 
 //Product Router
 app.use("/api/products/", productRouter);

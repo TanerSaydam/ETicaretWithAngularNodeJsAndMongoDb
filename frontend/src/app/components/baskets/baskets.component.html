@@ -1,0 +1,81 @@
+<app-blank title="Sepet" [routes]="routes">
+    <div *ngIf="baskets.length == 0">
+        <h1 class="alert alert-danger text-center">Sepette ürünüz bulunmuyor!</h1>
+    </div>
+    <div class="row" *ngIf="baskets.length > 0">
+        <div class="col-md-9" style="margin-right: 5px; border: 1px solid #ccc; border-radius: 10px; padding: 10px;">
+            <h1>Sepetteki Ürünlerim</h1>
+            <table class="table table-hover table-bordered">
+                <thead style="background-color: #f1f1f1;">
+                    <tr>
+                        <th>#</th>
+                        <th>Ürün Resmi</th>
+                        <th>Ürün Adı</th>
+                        <th>Adet</th>
+                        <th>Birim Fiyatı</th>
+                        <th>Toplam</th>
+                        <th>İşlemler</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let basket of baskets let index = index">
+                        <td>{{index + 1}}</td>
+                        <td class="text-center" (click)="setImageForModal(basket.product[0])" data-bs-toggle="modal" data-bs-target="#imageModal">
+                        <img [src]="'http://localhost:3000/' + basket.product[0].imageUrls[0].path" width="50">
+                        </td>
+                        <td>{{basket.product[0].name}}</td>
+                        <td>
+                            <button (click)="changeQuantity(basket._id,(basket.quantity - 1))" class="btn btn-outline-danger btn-sm">
+                                <i class="fa fa-minus"></i>
+                            </button>
+                            {{basket.quantity}}
+                            <button (click)="changeQuantity(basket._id,(basket.quantity + 1))" class="btn btn-outline-success btn-sm">
+                                <i class="fa fa-plus"></i>
+                            </button>
+                        </td>
+                        <td>{{basket.price | trCurrency}}</td>
+                        <td>{{(basket.price * basket.quantity) | trCurrency }}</td>
+                        <td>
+                            <button (click)="removeById(basket._id)" class="btn btn-outline-danger btn-sm">
+                                <i class="fa fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-3" style="width: 24%; border: 1px solid #ccc; border-radius: 10px; padding: 10px;">
+            <h1 class="alert alert-danger text-center strong">Ödenecek Tutar</h1>
+            <h2 class="text-center strong">{{sum | trCurrency}}</h2>
+            <button class="btn btn-outline-danger w-100 mt-2">Ödeme Yap</button>
+        </div>
+    </div>
+</app-blank>
+
+<div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="imageModalLabel">{{product.name}} Resimleri</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div id="carouselExample" class="carousel slide">
+                <div class="carousel-inner">
+                  <div class="carousel-item active" *ngFor="let image of product.imageUrls">
+                    <img [src]="'http://localhost:3000/' + image.path" class="d-block w-100" alt="...">
+                  </div>                  
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                  <span class="carousel-control-prev-icon black-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Önceki</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                  <span class="carousel-control-next-icon black-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Sonraki</span>
+                </button>
+              </div>
+        </div>        
+      </div>
+    </div>
+  </div>

@@ -59,6 +59,10 @@ export const routes: Routes = [
                 ]
             },
             {
+                path: "baskets",
+                loadComponent: ()=> import("./components/baskets/baskets.component").then(c=> c.BasketsComponent)
+            },
+            {
                 path: "**",
                 loadComponent:()=> import("./components/not-found/not-found.component").then(c=> c.NotFoundComponent)
             }
